@@ -33,9 +33,9 @@ public interface Cache<K, V, T> {
         put(Collections.singletonList(t));
     }
 
-   default void put(Map<K, V> map){
+    default void put(Map<K, V> map) {
         throw new UnsupportedOperationException("put map");
-   }
+    }
 
     default Collection<V> removeAndGet(Collection<K> keys) {
         throw new UnsupportedOperationException("update");
@@ -58,14 +58,25 @@ public interface Cache<K, V, T> {
      */
     Map<K, V> asMap(Collection<K> keys);
 
+    default Map<K, V> asMap(Collection<K> keys, boolean reSet) {
+       return asMap(keys);
+    }
+
 
     default List<V> get(Collection<K> keys) {
         return new ArrayList<>(asMap(keys).values());
     }
 
+    default List<V> get(Collection<K> keys, boolean reSet) {
+        return new ArrayList<>(asMap(keys, reSet).values());
+    }
+
 
     default Optional<V> optionalGet(K k) {
         return Optional.ofNullable(get(k));
+    }
+    default Optional<V> optionalGet(K k,boolean reSet) {
+        return Optional.ofNullable(get(k,reSet));
     }
 
     default V get(K k) {
@@ -76,9 +87,19 @@ public interface Cache<K, V, T> {
         return vs.get(0);
     }
 
-    default boolean contains(K k) {
-        return optionalGet(k).isPresent();
+    default V get(K k, boolean reSet) {
+        List<V> vs = get(Collections.singletonList(k),reSet);
+        if (CollUtil.isEmpty(vs)) {
+            return null;
+        }
+        return vs.get(0);
     }
+
+
+    default boolean contains(K k,boolean reSet) {
+        return optionalGet(k,reSet).isPresent();
+    }
+
 
     @AllArgsConstructor
     final class GetSetter<T, K, V> {

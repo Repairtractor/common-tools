@@ -1,4 +1,4 @@
-package com.example.cache;
+package com.example.util;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Snowflake;

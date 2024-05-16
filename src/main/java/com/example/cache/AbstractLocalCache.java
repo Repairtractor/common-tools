@@ -12,7 +12,6 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-
 @Slf4j
 public abstract class AbstractLocalCache<V, T> implements Cache<String, V, T> {
 
@@ -96,6 +95,5 @@ public abstract class AbstractLocalCache<V, T> implements Cache<String, V, T> {
     protected Map<String, V> getCacheKeyAndValue(List<String> keys) {
         return sourceAll(keys).stream().collect(Collectors.toMap(getSetter.keyGetter, getSetter.valueGetter));
     }
-
 
 }
