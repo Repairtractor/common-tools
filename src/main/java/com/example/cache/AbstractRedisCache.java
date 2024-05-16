@@ -182,7 +182,7 @@ public abstract class AbstractRedisCache<V, T> implements Cache<String, V, T> {
     }
 
     private Pair<String, V> convertKeyAndValue(String k, String value) {
-        return Pair.of(k.replace(keyPath, ""), JSONUtil.isTypeJSON(value) ? JSONUtil.toBean(value, new TypeReference<V>() {
+        return Pair.of(k.replace(keyPath, ""), JSONUtil.isJson(value) ? JSONUtil.toBean(value, new TypeReference<V>() {
         }, false) : (V) value);
     }
 
